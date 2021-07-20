@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+//package grpcweb;
+
+service TiacTacToe {
+    rpc AddPlayer(AddPlayerRequest) returns (AddPlayerResponse) {}
+}
+
+message AddPlayerRequest {
+    string name = 1;
+}
+
+message AddPlayerResponse {
+    enum Outcome {
+        SUCCESS = 0;
+
+        FAILED = 1;
+    }
+}
