@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1"
+  },
+  "dependencies": {
+    "@types/http-server": "^0.12.1",
+    "@types/ws": "^7.4.7",
+    "http": "^0.0.1-security",
+    "ws": "^7.5.3"
+  }
+}

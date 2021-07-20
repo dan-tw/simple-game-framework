@@ -1,0 +1,2 @@
+var Http = module;
+('http');
