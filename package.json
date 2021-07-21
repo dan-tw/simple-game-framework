@@ -17,5 +17,10 @@
     "webpack": "^5.45.1",
     "webpack-dev-server": "^3.10.3",
     "ws": "^7.5.3"
+  },
+  "scripts": {
+    "server": "./cmd/run-server.sh",
+    "webpack": "./cmd/webpack.sh",
+    "protoc": "./cmd/run-generate.sh"
   }
 }

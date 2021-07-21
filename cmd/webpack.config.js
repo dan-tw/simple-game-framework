@@ -1,9 +1,11 @@
 const path = require('path');
+const dist = path.resolve(__dirname.replace(/cmd/,""), "www/dist");
 
 module.exports = {
   entry: './src/client.ts',
   output: {
-    filename: '../www/dist/main.js'
+    path: dist,
+    filename: 'main.js'
   },
   target: 'node',
   resolve: {
