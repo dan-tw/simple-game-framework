@@ -6,6 +6,6 @@ interface iGameMap {
 }
 
 export interface IGameMap {
-    new() : iGameMap;
+    //new() : iGameMap;
     ClassName : string;
 }
