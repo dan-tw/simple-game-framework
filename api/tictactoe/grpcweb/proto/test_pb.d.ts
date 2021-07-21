@@ -21,6 +21,12 @@ export namespace AddPlayerRequest {
 }
 
 export class AddPlayerResponse extends jspb.Message {
+  getOutcome(): AddPlayerResponse.Outcome;
+  setOutcome(value: AddPlayerResponse.Outcome): AddPlayerResponse;
+
+  getMessage(): string;
+  setMessage(value: string): AddPlayerResponse;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): AddPlayerResponse.AsObject;
   static toObject(includeInstance: boolean, msg: AddPlayerResponse): AddPlayerResponse.AsObject;
@@ -31,6 +37,8 @@ export class AddPlayerResponse extends jspb.Message {
 
 export namespace AddPlayerResponse {
   export type AsObject = {
+    outcome: AddPlayerResponse.Outcome,
+    message: string,
   }
 
   export enum Outcome { 

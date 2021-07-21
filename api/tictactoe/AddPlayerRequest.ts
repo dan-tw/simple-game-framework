@@ -1,4 +1,4 @@
-// Original file: ../proto/test.proto
+// Original file: proto/test.proto
 
 
 export interface AddPlayerRequest {

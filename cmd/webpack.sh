@@ -1,0 +1,1 @@
+npx webpack --config ./cmd/webpack.config.js

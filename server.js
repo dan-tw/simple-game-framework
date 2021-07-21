@@ -1,2 +1,0 @@
-var Http = module;
-('http');

@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-//package grpcweb;
+package tictactoe;
 
-service TiacTacToe {
+service TicTacToe {
     rpc AddPlayer(AddPlayerRequest) returns (AddPlayerResponse) {}
 }
 
@@ -16,4 +16,7 @@ message AddPlayerResponse {
 
         FAILED = 1;
     }
+
+    Outcome outcome = 1;
+    string message = 2; 
 }

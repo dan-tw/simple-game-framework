@@ -1,5 +1,5 @@
 /**
- * @fileoverview gRPC-Web generated client stub for 
+ * @fileoverview gRPC-Web generated client stub for tictactoe
  * @enhanceable
  * @public
  */
@@ -16,7 +16,7 @@ import * as grpcWeb from 'grpc-web';
 import * as proto_test_pb from '../proto/test_pb';
 
 
-export class TiacTacToeClient {
+export class TicTacToeClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -61,7 +61,7 @@ export class TiacTacToeClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/TiacTacToe/AddPlayer',
+          '/tictactoe.TicTacToe/AddPlayer',
         request,
         metadata || {},
         this.methodInfoAddPlayer,
@@ -69,7 +69,7 @@ export class TiacTacToeClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/TiacTacToe/AddPlayer',
+      '/tictactoe.TicTacToe/AddPlayer',
     request,
     metadata || {},
     this.methodInfoAddPlayer);
