@@ -1,20 +1,20 @@
 import type * as grpc from '@grpc/grpc-js';
 import type { MessageTypeDefinition } from '@grpc/proto-loader';
 
-import type { TicTacToeClient as _tictactoe_TicTacToeClient, TicTacToeDefinition as _tictactoe_TicTacToeDefinition } from './tictactoe/TicTacToe';
+import type { GameServiceClient as _game_GameServiceClient, GameServiceDefinition as _game_GameServiceDefinition } from './game/GameService';
 
 type SubtypeConstructor<Constructor extends new (...args: any) => any, Subtype> = {
   new(...args: ConstructorParameters<Constructor>): Subtype;
 };
 
 export interface ProtoGrpcType {
-  tictactoe: {
+  game: {
     Error: MessageTypeDefinition
     Game: MessageTypeDefinition
     GameList: MessageTypeDefinition
+    GameService: SubtypeConstructor<typeof grpc.Client, _game_GameServiceClient> & { service: _game_GameServiceDefinition }
     Player: MessageTypeDefinition
     State: MessageTypeDefinition
-    TicTacToe: SubtypeConstructor<typeof grpc.Client, _tictactoe_TicTacToeClient> & { service: _tictactoe_TicTacToeDefinition }
     Turn: MessageTypeDefinition
   }
 }

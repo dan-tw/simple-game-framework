@@ -1,6 +1,5 @@
 import { createServer, IncomingMessage, ServerResponse, Server } from 'http'
 import WebSocket, { Server as WebSocketServer } from 'ws';
-import open from 'open'
 import fs from 'fs'
 
 // grpc
@@ -10,10 +9,10 @@ import * as protoLoader from '@grpc/proto-loader';
 // grpcweb
 //import * as grpcWeb from 'grpc-web';
 import { ProtoGrpcType } from '../api/test';
+import { GameMap } from './gamemap';
+import { Game } from './game';
 //import {AddPlayerRequest, AddPlayerResponse} from '../api/tictactoe/grpcweb/proto/test_pb'
 //import { _tictactoe_AddPlayerResponse_Outcome } from '../api/tictactoe/AddPlayerResponse';
-
-const gameActive = true;
 
 function AddPlayer(call:any, callback:any) {
     
@@ -25,7 +24,7 @@ function AddPlayer(call:any, callback:any) {
     callback(null, theResponse);
 }
 
-class TicTacToeServer {
+class GameServer {
 
     // The http server we use to serve the files that will run the tic tac toe game
     private httpServer : Server
@@ -77,7 +76,7 @@ class TicTacToeServer {
         var packageDefinition = protoLoader.loadSync('./proto/test.proto');
         var proto = (grpc.loadPackageDefinition(packageDefinition) as unknown) as ProtoGrpcType;
         var server = new grpc.Server();
-        server.addService(proto.tictactoe.TicTacToe.service, {
+        server.addService(proto.game.GameService.service, {
             AddPlayer: AddPlayer
         });
         return server;
@@ -119,11 +118,16 @@ class TicTacToeServer {
     public getWebSocketServer() : WebSocketServer | null {
         return this.wsServer;
     }
+
+    // Create a new game with the given name and the given map
+    public createGame(name : string, map : GameMap) : Game {
+        return new Game(name, map);
+    }
 }
 
 // create our new tic tac toe server
-export const ticTacToeServer = new TicTacToeServer();
-ticTacToeServer.listen();
+export const gameServer = new GameServer();
+gameServer.listen();
 console.log("HTTP server listening on 8081");
 console.log("gRPC server listening on 8082");
 console.log("WS server listening on 8083");

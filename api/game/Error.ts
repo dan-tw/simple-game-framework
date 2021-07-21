@@ -3,7 +3,7 @@
 
 // Original file: proto/test.proto
 
-export enum _tictactoe_Error_ErrorType {
+export enum _game_Error_ErrorType {
   INVALID_GAME = 0,
   INVALID_REQUEST = 1,
   ERROR = 2,

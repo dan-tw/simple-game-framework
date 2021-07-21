@@ -1,4 +1,4 @@
-import { ticTacToeServer } from "./server";
+import { gameServer } from "./server";
 import { Player } from "./player";
 import { GameMap } from "./gamemap";
 import { GameStateType } from "./gamestate";
@@ -7,7 +7,7 @@ import { GameStateType } from "./gamestate";
 // or that has been played previously. The game itself can be played on more than one 
 // GameMap, so the main logic in this class should be one level of abstraction up from
 // the specific business logic of how a game actually plays out (scoring, win/lose condition etc)
-class Game {
+export class Game {
     
     // The unique ID of this game
     private id : string = Game.uuid();

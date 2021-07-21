@@ -1,5 +1,5 @@
 /**
- * @fileoverview gRPC-Web generated client stub for tictactoe
+ * @fileoverview gRPC-Web generated client stub for game
  * @enhanceable
  * @public
  */
@@ -16,7 +16,7 @@ import * as grpcWeb from 'grpc-web';
 import * as proto_test_pb from '../proto/test_pb';
 
 
-export class TicTacToeClient {
+export class GameServiceClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -61,7 +61,7 @@ export class TicTacToeClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tictactoe.TicTacToe/Subscribe',
+          '/game.GameService/Subscribe',
         request,
         metadata || {},
         this.methodInfoSubscribe,
@@ -69,7 +69,7 @@ export class TicTacToeClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tictactoe.TicTacToe/Subscribe',
+      '/game.GameService/Subscribe',
     request,
     metadata || {},
     this.methodInfoSubscribe);
@@ -101,7 +101,7 @@ export class TicTacToeClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tictactoe.TicTacToe/ListGames',
+          '/game.GameService/ListGames',
         request,
         metadata || {},
         this.methodInfoListGames,
@@ -109,7 +109,7 @@ export class TicTacToeClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tictactoe.TicTacToe/ListGames',
+      '/game.GameService/ListGames',
     request,
     metadata || {},
     this.methodInfoListGames);
@@ -141,7 +141,7 @@ export class TicTacToeClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tictactoe.TicTacToe/HaveTurn',
+          '/game.GameService/HaveTurn',
         request,
         metadata || {},
         this.methodInfoHaveTurn,
@@ -149,7 +149,7 @@ export class TicTacToeClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tictactoe.TicTacToe/HaveTurn',
+      '/game.GameService/HaveTurn',
     request,
     metadata || {},
     this.methodInfoHaveTurn);
