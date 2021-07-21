@@ -3,20 +3,52 @@ syntax = "proto3";
 package tictactoe;
 
 service TicTacToe {
-    rpc AddPlayer(AddPlayerRequest) returns (AddPlayerResponse) {}
+    rpc Subscribe(Player) returns (State) {}
+    rpc ListGames(Player) returns (GameList) {}
+    rpc HaveTurn(Turn) returns (State) {}
 }
 
-message AddPlayerRequest {
+message Game {
+    string id = 1;
+    repeated Player players = 2;
+    State state = 3;
+    Error error = 4;
+}
+
+message GameList {
+    repeated Game games = 1;
+    Error error = 2;
+}
+
+message Player {
     string name = 1;
 }
 
-message AddPlayerResponse {
-    enum Outcome {
-        SUCCESS = 0;
+message Turn {
+    Player player = 1;
+    Error error = 2;
+}
 
-        FAILED = 1;
+message State {
+
+    enum Turn {
+        PLAYER_1 = 0;
+        PLAYER_2 = 1;
     }
 
-    Outcome outcome = 1;
-    string message = 2; 
+    Turn playerTurn = 1;
+
+    string board = 2;
+    
+    Error error = 3;
+}
+
+message Error {
+    enum ErrorType {
+        INVALID_GAME = 0;
+        INVALID_REQUEST = 1;
+        ERROR = 2;
+    }
+
+    string message = 1;
 }

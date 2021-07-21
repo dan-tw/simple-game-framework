@@ -6,7 +6,6 @@ OUT_DIR=./api/tictactoe/grpcweb
 
 #remove old generated files
 rm -rf $OUT_DIR/proto
-rm -rf $OUT_DIR/proto
 
 # generate the files for grpc-web (client side)
 protoc -I=$DIR $PROTO_FILE \

@@ -9,9 +9,13 @@ type SubtypeConstructor<Constructor extends new (...args: any) => any, Subtype> 
 
 export interface ProtoGrpcType {
   tictactoe: {
-    AddPlayerRequest: MessageTypeDefinition
-    AddPlayerResponse: MessageTypeDefinition
+    Error: MessageTypeDefinition
+    Game: MessageTypeDefinition
+    GameList: MessageTypeDefinition
+    Player: MessageTypeDefinition
+    State: MessageTypeDefinition
     TicTacToe: SubtypeConstructor<typeof grpc.Client, _tictactoe_TicTacToeClient> & { service: _tictactoe_TicTacToeDefinition }
+    Turn: MessageTypeDefinition
   }
 }
 

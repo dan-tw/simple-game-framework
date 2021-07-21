@@ -35,44 +35,124 @@ export class TicTacToeClient {
     this.options_ = options;
   }
 
-  methodInfoAddPlayer = new grpcWeb.AbstractClientBase.MethodInfo(
-    proto_test_pb.AddPlayerResponse,
-    (request: proto_test_pb.AddPlayerRequest) => {
+  methodInfoSubscribe = new grpcWeb.AbstractClientBase.MethodInfo(
+    proto_test_pb.State,
+    (request: proto_test_pb.Player) => {
       return request.serializeBinary();
     },
-    proto_test_pb.AddPlayerResponse.deserializeBinary
+    proto_test_pb.State.deserializeBinary
   );
 
-  addPlayer(
-    request: proto_test_pb.AddPlayerRequest,
-    metadata: grpcWeb.Metadata | null): Promise<proto_test_pb.AddPlayerResponse>;
+  subscribe(
+    request: proto_test_pb.Player,
+    metadata: grpcWeb.Metadata | null): Promise<proto_test_pb.State>;
 
-  addPlayer(
-    request: proto_test_pb.AddPlayerRequest,
+  subscribe(
+    request: proto_test_pb.Player,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: proto_test_pb.AddPlayerResponse) => void): grpcWeb.ClientReadableStream<proto_test_pb.AddPlayerResponse>;
+               response: proto_test_pb.State) => void): grpcWeb.ClientReadableStream<proto_test_pb.State>;
 
-  addPlayer(
-    request: proto_test_pb.AddPlayerRequest,
+  subscribe(
+    request: proto_test_pb.Player,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: proto_test_pb.AddPlayerResponse) => void) {
+               response: proto_test_pb.State) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/tictactoe.TicTacToe/AddPlayer',
+          '/tictactoe.TicTacToe/Subscribe',
         request,
         metadata || {},
-        this.methodInfoAddPlayer,
+        this.methodInfoSubscribe,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/tictactoe.TicTacToe/AddPlayer',
+      '/tictactoe.TicTacToe/Subscribe',
     request,
     metadata || {},
-    this.methodInfoAddPlayer);
+    this.methodInfoSubscribe);
+  }
+
+  methodInfoListGames = new grpcWeb.AbstractClientBase.MethodInfo(
+    proto_test_pb.GameList,
+    (request: proto_test_pb.Player) => {
+      return request.serializeBinary();
+    },
+    proto_test_pb.GameList.deserializeBinary
+  );
+
+  listGames(
+    request: proto_test_pb.Player,
+    metadata: grpcWeb.Metadata | null): Promise<proto_test_pb.GameList>;
+
+  listGames(
+    request: proto_test_pb.Player,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: proto_test_pb.GameList) => void): grpcWeb.ClientReadableStream<proto_test_pb.GameList>;
+
+  listGames(
+    request: proto_test_pb.Player,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.Error,
+               response: proto_test_pb.GameList) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/tictactoe.TicTacToe/ListGames',
+        request,
+        metadata || {},
+        this.methodInfoListGames,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/tictactoe.TicTacToe/ListGames',
+    request,
+    metadata || {},
+    this.methodInfoListGames);
+  }
+
+  methodInfoHaveTurn = new grpcWeb.AbstractClientBase.MethodInfo(
+    proto_test_pb.State,
+    (request: proto_test_pb.Turn) => {
+      return request.serializeBinary();
+    },
+    proto_test_pb.State.deserializeBinary
+  );
+
+  haveTurn(
+    request: proto_test_pb.Turn,
+    metadata: grpcWeb.Metadata | null): Promise<proto_test_pb.State>;
+
+  haveTurn(
+    request: proto_test_pb.Turn,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: proto_test_pb.State) => void): grpcWeb.ClientReadableStream<proto_test_pb.State>;
+
+  haveTurn(
+    request: proto_test_pb.Turn,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.Error,
+               response: proto_test_pb.State) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/tictactoe.TicTacToe/HaveTurn',
+        request,
+        metadata || {},
+        this.methodInfoHaveTurn,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/tictactoe.TicTacToe/HaveTurn',
+    request,
+    metadata || {},
+    this.methodInfoHaveTurn);
   }
 
 }

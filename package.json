@@ -21,6 +21,7 @@
   "scripts": {
     "server": "./cmd/run-server.sh",
     "webpack": "./cmd/webpack.sh",
-    "protoc": "./cmd/run-generate.sh"
+    "protoc": "./cmd/generate.sh",
+    "proxy": "./cmd/proxy.sh"
   }
 }

@@ -8,19 +8,19 @@ import * as grpc from '@grpc/grpc-js'
 import * as protoLoader from '@grpc/proto-loader';
 
 // grpcweb
-import * as grpcWeb from 'grpc-web';
+//import * as grpcWeb from 'grpc-web';
 import { ProtoGrpcType } from '../api/test';
-import {AddPlayerRequest, AddPlayerResponse} from '../api/tictactoe/grpcweb/proto/test_pb'
-import { _tictactoe_AddPlayerResponse_Outcome } from '../api/tictactoe/AddPlayerResponse';
+//import {AddPlayerRequest, AddPlayerResponse} from '../api/tictactoe/grpcweb/proto/test_pb'
+//import { _tictactoe_AddPlayerResponse_Outcome } from '../api/tictactoe/AddPlayerResponse';
 
+const gameActive = true;
 
 function AddPlayer(call:any, callback:any) {
     
     console.log(`Lets add a player ${call.request.name}`);
 
     var theResponse = {message: "Hello tehr!"}
-    var x = new AddPlayerResponse();
-        console.log(theResponse);
+    console.log(theResponse);
 
     callback(null, theResponse);
 }
@@ -34,20 +34,28 @@ class TicTacToeServer {
     // for the current game state (who's turn, who occupies what spaces, etc) 
     private grpcServer : grpc.Server
 
+    // WebSocketServer that we will be using to listen for incomming ws connections
+    // to keep an open stream of game state
+    private wsServer : WebSocketServer | null
+
     // The port we listen on for the http server
     private httpPort : number | string = 8081
 
     // The port we listen on for the gRPC server
     private grpcPort : number | string = 8082
 
+    // The port we will listen on for incoming websocket connections
+    private wssPort : number | undefined = 8083
+
     // Create our servers
     constructor() {
         this.httpServer = this.createHttpServer();
         this.grpcServer = this.createGrpcServer();
+        this.wsServer = null;
     }
 
     // Creates our http server for serving files and general content relating to the tic tac toe game
-    createHttpServer() : Server {
+    private createHttpServer() : Server {
         return createServer((request: IncomingMessage, response: ServerResponse) => {
             if(request.url == "/")
               request.url = "/index.html"
@@ -65,7 +73,7 @@ class TicTacToeServer {
     }
 
     // Creates the gRPC server that we will be using to make rpc calls to handle the game state
-    createGrpcServer() : grpc.Server {
+    private createGrpcServer() : grpc.Server {
         var packageDefinition = protoLoader.loadSync('./proto/test.proto');
         var proto = (grpc.loadPackageDefinition(packageDefinition) as unknown) as ProtoGrpcType;
         var server = new grpc.Server();
@@ -75,8 +83,16 @@ class TicTacToeServer {
         return server;
     }
 
+    // Create the websocket server that we will be using to tell connected players
+    // that a state change to the game has been made and that they need to call an update
+    private createWebSocketServer() : WebSocketServer {
+        return new WebSocketServer({
+            port: this.wssPort
+        });
+    }
+
     // Begin listening for both the http and gRPC servers that we're using
-    listen() {
+    public listen() {
         // begin http server listening
         this.httpServer.listen(this.httpPort);
 
@@ -89,11 +105,25 @@ class TicTacToeServer {
                 this.grpcServer.start();
             }
         });
+
+        // begin listening for incoming websocket connections
+        this.wsServer = this.createWebSocketServer();
+
+        // setup some listeners
+        this.wsServer.on('connection', function(ws : WebSocket) {
+            
+        });
+    }
+
+    // Returns an instance of our websocket server, or null if it doesn't exist
+    public getWebSocketServer() : WebSocketServer | null {
+        return this.wsServer;
     }
 }
 
-
-var myServer = new TicTacToeServer();
-myServer.listen();
+// create our new tic tac toe server
+export const ticTacToeServer = new TicTacToeServer();
+ticTacToeServer.listen();
 console.log("HTTP server listening on 8081");
 console.log("gRPC server listening on 8082");
+console.log("WS server listening on 8083");
