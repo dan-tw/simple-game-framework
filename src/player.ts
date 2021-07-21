@@ -1,8 +1,21 @@
-class Player {
+import WebSocket from "ws";
 
-    private turn:boolean = false;
+export class Player {
 
-    constructor() {
-        
+    private name : string
+
+    private ws : WebSocket
+
+    constructor(name : string, ws : WebSocket) {
+        this.name = name;
+        this.ws = ws;
+    }
+
+    public setName(name : string) {
+        this.name = name;
+    }
+
+    public getName() : string {
+        return this.name;
     }
 }
