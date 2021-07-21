@@ -25,74 +25,75 @@ function AddPlayer(call:any, callback:any) {
     callback(null, theResponse);
 }
 
-function getServer(): grpc.Server {
-    const packageDefinition = protoLoader.loadSync('./proto/test.proto');
-    const proto = (grpc.loadPackageDefinition(packageDefinition) as unknown) as ProtoGrpcType;
-    const server = new grpc.Server();
-    server.addService(proto.tictactoe.TicTacToe.service, {
-        AddPlayer: AddPlayer
-    });
-    return server;
-}
-const grpcServer = getServer();
+class TicTacToeServer {
 
+    // The http server we use to serve the files that will run the tic tac toe game
+    private httpServer : Server
 
-grpcServer.bindAsync("localhost:8082", grpc.ServerCredentials.createInsecure(),
-(err: Error | null, port: number) => {
-    if (err) {
-      console.error(`Server error: ${err.message}`);
-    } else {
-      console.log(`Server bound on port: ${port}`);
-      grpcServer.start();
-    }
-});
+    // The grpc server we use to faciliate communication between the server and client 
+    // for the current game state (who's turn, who occupies what spaces, etc) 
+    private grpcServer : grpc.Server
 
-class MyServer {
+    // The port we listen on for the http server
+    private httpPort : number | string = 8081
 
-    private server:Server
+    // The port we listen on for the gRPC server
+    private grpcPort : number | string = 8082
 
+    // Create our servers
     constructor() {
-        this.server = createServer((request: IncomingMessage, response: ServerResponse) => {
-            const headers = {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
-                "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, X-User-Agent, X-Grpc-Web",
-                "Access-Control-Max-Age": 2592000, // 30 days
-                /** add other headers as per requirement */
-              };
-
-              if(request.url == "/")
-                request.url = "/index.html"
-                
-              //console.log("wanna read " + __dirname + '/www' + request.url);
-              fs.readFile(__dirname.replace(/src/, "") + 'www' + request.url, function (err,data) {
-                if (err) {
-                  response.writeHead(404);
-                  response.end(JSON.stringify(err));
-                  return;
-                }
-                response.writeHead(200, headers);
-                response.end(data);
-              });
-          });
+        this.httpServer = this.createHttpServer();
+        this.grpcServer = this.createGrpcServer();
     }
 
+    // Creates our http server for serving files and general content relating to the tic tac toe game
+    createHttpServer() : Server {
+        return createServer((request: IncomingMessage, response: ServerResponse) => {
+            if(request.url == "/")
+              request.url = "/index.html"
+              
+            fs.readFile(__dirname.replace(/src/, "") + 'www' + request.url, function (err,data) {
+              if (err) {
+                response.writeHead(404);
+                response.end(JSON.stringify(err));
+                return;
+              }
+              response.writeHead(200);
+              response.end(data);
+            });
+        });
+    }
+
+    // Creates the gRPC server that we will be using to make rpc calls to handle the game state
+    createGrpcServer() : grpc.Server {
+        var packageDefinition = protoLoader.loadSync('./proto/test.proto');
+        var proto = (grpc.loadPackageDefinition(packageDefinition) as unknown) as ProtoGrpcType;
+        var server = new grpc.Server();
+        server.addService(proto.tictactoe.TicTacToe.service, {
+            AddPlayer: AddPlayer
+        });
+        return server;
+    }
+
+    // Begin listening for both the http and gRPC servers that we're using
     listen() {
-        this.server.listen(8081);
+        // begin http server listening
+        this.httpServer.listen(this.httpPort);
+
+        // begin listening for the grpc server
+        this.grpcServer.bindAsync("localhost:" + this.grpcPort, grpc.ServerCredentials.createInsecure(), (err: Error | null, port: number) => {
+            if (err) {
+                console.error(`Server error: ${err.message}`);
+            } else {
+                console.log(`Server bound on port: ${port}`);
+                this.grpcServer.start();
+            }
+        });
     }
 }
 
-console.log("HTTP server listening on 8081");
-var myServer = new MyServer();
+
+var myServer = new TicTacToeServer();
 myServer.listen();
-/*
-const wss = new WebSocketServer({ port: 8081 });
-wss.on("connection", function name(socket: WebSocket, req: IncomingMessage) {
-    console.log("Got a connection");
-});*/
-
-// grpcwebproxy --backend_addr=localhost:8082 --run_tls_server=false
-
-
-//const ws = new WebSocket("ws://10.115.11.169:8081");
-//open("http://10.115.11.169:8080");
+console.log("HTTP server listening on 8081");
+console.log("gRPC server listening on 8082");
