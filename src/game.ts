@@ -1,5 +1,5 @@
 import { gameServer } from "./server";
-import { Player } from "./player";
+import { Player, ActivePlayer } from "./player";
 import { GameMap } from "./gamemap";
 import { GameStateType } from "./gamestate";
 
@@ -10,43 +10,64 @@ import { GameStateType } from "./gamestate";
 export class Game {
     
     // The unique ID of this game
-    private id : string = Game.uuid();
+    private _id : string = Game.uuid();
 
     // The name of this game
-    private name : string;
+    private _name : string;
 
     // The current active player. This represents which player is currently having a 'turn'
-    private activePlayer : Player | null = null;
+    private _activePlayer : ActivePlayer;
 
     // The players currently playing this game
-    private players : Player[] = [];
+    private _players : Player[] = [];
 
     // The currently active game map (this could be tic toc toe, or this could be checkers, chess, etc)
-    private gameMap : GameMap
+    private _gameMap : GameMap
 
     // An array of used ids for this instance of the game server
     private static ids : string[] = [];
 
     // Constructor
     constructor(name : string, map : GameMap) {
-        this.name = name;
-        this.gameMap = map;
+        this._name = name;
+        this._gameMap = map;
     }
 
     // Add a player to the current game
     public addPlayer(player : Player) {
-        this.players.push(player);
+        this._players.push(player);
+    }
+
+    public get players() : Player[] {
+        return this._players;
     }
 
     // Sets the active player for the current game. The active player defines
     // which players 'turn' it is
-    public setActivePlayer(player : Player) {
-        this.activePlayer = player;
+    public set activePlayer(player : ActivePlayer) {
+        this._activePlayer = player;
+    }
+
+    public get activePlayer() : ActivePlayer {
+        return this._activePlayer;
+    }
+
+    // Returns the current game map that has been configured for this game
+    // Takes a type <T> as it is assumed when using the interface it is known which 
+    // GameMap will have been used and this allows us to access specific IGameMap interface
+    // methods on our GameMap instance
+    public getGameMap<T>() : T {
+        return (this._gameMap as unknown) as T;
+    }
+
+    // Gets the game map instance
+    public get gameMap() : GameMap {
+        return this._gameMap;
     }
 
     // Returns the current state of the game based on the map being played for this game
     public getGameState() : GameStateType {
-        return this.gameMap.getGameState();
+        return this._gameMap.getGameState();
     }
 
     // Returns a uuid whenever we need a unique id for an object within the game

@@ -4,11 +4,11 @@ export class Player {
 
     private name : string
 
-    private ws : WebSocket
+    //private ws : WebSocket
 
-    constructor(name : string, ws : WebSocket) {
+    constructor(name : string, ws? : WebSocket) {
         this.name = name;
-        this.ws = ws;
+        //this.ws = ws;
     }
 
     public setName(name : string) {
@@ -19,3 +19,5 @@ export class Player {
         return this.name;
     }
 }
+
+export type ActivePlayer = Player | undefined

@@ -11,6 +11,8 @@ import * as protoLoader from '@grpc/proto-loader';
 import { ProtoGrpcType } from '../api/test';
 import { GameMap } from './gamemap';
 import { Game } from './game';
+import { TicTacToeMap } from './maps/tictactoe.gamemap';
+import { Player } from './player';
 //import {AddPlayerRequest, AddPlayerResponse} from '../api/tictactoe/grpcweb/proto/test_pb'
 //import { _tictactoe_AddPlayerResponse_Outcome } from '../api/tictactoe/AddPlayerResponse';
 
@@ -127,7 +129,17 @@ class GameServer {
 
 // create our new tic tac toe server
 export const gameServer = new GameServer();
-gameServer.listen();
+/*gameServer.listen();
 console.log("HTTP server listening on 8081");
 console.log("gRPC server listening on 8082");
-console.log("WS server listening on 8083");
+console.log("WS server listening on 8083");*/
+
+let game = gameServer.createGame("Tic Tac Toe", new TicTacToeMap());
+
+game.addPlayer(new Player("Dan"))
+game.addPlayer(new Player("Bob"))
+
+console.log(game.getGameMap<TicTacToeMap>().gameTiles);
+console.log(game.players);
+
+game.getGameMap<TicTacToeMap>().haveTurn();
