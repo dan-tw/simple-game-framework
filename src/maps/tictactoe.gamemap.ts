@@ -7,7 +7,7 @@ export class GameMap extends BaseGameMap {
     constructor() {
 
         let mapSize : [number, number] = [3, 3];
-        let mapName = "";
+        let mapName = "Tic Tac Toe";
 
         super(mapName, mapSize);
     }

@@ -143,7 +143,7 @@ game.addPlayer(new GamePlayer(new Player("Bob")))
 
 game.gameMap.begin();
 
-//console.log(game.getGameMap<TicTacToeGameMap>().gameTiles);
+console.log(game.getGameMap<TicTacToeGameMap>().gameTiles);
 console.log(game.players);
 
 game.getGameMap<TicTacToeGameMap>().haveTurn();
