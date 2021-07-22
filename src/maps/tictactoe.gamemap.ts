@@ -1,15 +1,15 @@
-import { BaseGameMap, IGameMap } from "../internal/gamemap";
+import { BaseGameMap } from "../internal/gamemap";
 import { GameMapTile, GamePiece, IGamePiece } from "../internal/gamemap";
 
 
-export class GameMap extends BaseGameMap implements IGameMap {
+export class GameMap extends BaseGameMap {
 
     constructor() {
 
         let mapSize : [number, number] = [3, 3];
         let mapName = "";
 
-        super(mapName, mapSize)
+        super(mapName, mapSize);
     }
 
     public haveTurn() : void {
@@ -17,20 +17,27 @@ export class GameMap extends BaseGameMap implements IGameMap {
     }
 
     public begin() : void {
-
+        this.setupGamePeices();
     }
 
-    public setupGamePeices() : void {
+    private setupGamePeices() : void {
         // the max number of moves a single player can make in tic tac toe is 8
         // so we assign each player 8 game peices
+        let maxPieces = 8;
 
         // TODO: determine a way to assign a specific player to naughts over crosses e.g.
         if(this.game !== undefined) {
             for(var i = 0; i < this.game.players.length; i++) {
-                if(i == 0) {
-
+                for(var j = 0; j < maxPieces; j++) {
+                    if(i == 0) {
+                        this.game.players[i].assignGamePiece(new Cross("Cross", this.game));
+                    } else {
+                        this.game.players[i].assignGamePiece(new Naught("Naught", this.game));
+                    }
                 }
             }
+        } else {
+            console.log("game was undefined");
         }
     }
 

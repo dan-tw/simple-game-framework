@@ -1,6 +1,6 @@
 import { gameServer } from "../server";
 import { Player } from "./player";
-import { BaseGameMap } from "./gamemap";
+import { BaseGameMap, GamePiece } from "./gamemap";
 import { GameStateType } from "./gamestate";
 
 // This type is used to define an active player (meaning the player whos current turn it is)
@@ -25,7 +25,7 @@ export class Game {
     private _activePlayer : ActivePlayer;
 
     // The players currently playing this game
-    private _players : GamePlayer[] = [];
+    private _players : GamePlayer[];
 
     // The currently active game map (this could be tic toc toe, or this could be checkers, chess, etc)
     private _gameMap : BaseGameMap
@@ -38,6 +38,8 @@ export class Game {
         this._id = Game.uuid();
         this._name = name;
         this._gameMap = map;
+        this._gameMap.game = this;
+        this._players = [];
     }
 
     // Add a player to the current game
@@ -105,15 +107,29 @@ export class GamePlayer {
     // The Player that this GamePlayer will be based upon
     protected _player : Player;
 
+    // A list of GamePiece that have been assigned to this GamePlayer
+    protected _gamePieces : GamePiece[];
+
     // Constructor
     constructor(player : Player) {
 
         this._id = Game.uuid();
         this._player = player;
+        this._gamePieces = [];
     }
 
     // Return the instance of player that this GamePlayer is based upon
     public get player() : Player {
         return this._player;
+    }
+
+    // Return the list of GamePieces currently assigned to this player
+    public get gamePeices() : GamePiece[] {
+        return this._gamePieces;
+    }
+
+    // Assign a GamePiece to the current GamePlayer
+    public assignGamePiece(piece : GamePiece) {
+        this._gamePieces.push(piece);
     }
 }

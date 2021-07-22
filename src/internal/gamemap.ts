@@ -4,7 +4,7 @@ import { GameState, GameStateType } from "./gamestate"
 // The GameMap class represents the base level of a map that can be played
 // It holds common attributes and methods that don't change across maps
 // It is used in combination with the IGameMap interface, which defines the methods that are subclass specific
-export class BaseGameMap {
+export abstract class BaseGameMap {
 
     // The unique id for this GameMap
     private _id : string;
@@ -33,6 +33,18 @@ export class BaseGameMap {
         this._mapSize = mapSize;
         this._gameTiles = this.createGameMapTiles();
     }
+
+    // Should hold the logic for when a game begins. This can include things like setting up player pieces
+    // player assignments, team management, etc
+    abstract begin() : void;
+
+    // Have a turn based on something
+    // TODO: figure out what this needs
+    abstract haveTurn() : void;
+
+    // This will be called on every turn to check whether we have reached a win/lose condition for our GameMap
+    // if we have, this should return true otherwise return false
+    abstract gameHasEnded() : boolean;
 
     // Creates a grid of GameMapTile based on the mapSize of the map
     // mapSize is dependant on what map is being loaded in for the current game
@@ -207,25 +219,3 @@ export class GameMapTile {
 
 // Represents all possible owners of a GameMapTile as a type
 type GameTileOwner = string | GamePlayer | undefined
-
-
-// IGameMap interface should be implemented in all variations of GameMap's that are implemented. ever.
-// It defines the interface that drives the indepedant logic of an individual GameMap.
-// This includes things like how to begin a map, how a turn should play out, when a game ends, etc.
-export interface IGameMap {
-
-    // Should hold the logic for when a game begins. This can include things like setting up player pieces
-    // player assignments, team management, etc
-    begin() : void;
-
-    // Have a turn based on something
-    // TODO: figure out what this needs
-    haveTurn() : void;
-
-    // This will be called on every turn to check whether we have reached a win/lose condition for our GameMap
-    // if we have, this should return true otherwise return false
-    gameHasEnded() : boolean;
-
-    // TODO: duplicate of begin?
-    setupGamePeices() : void;
-}

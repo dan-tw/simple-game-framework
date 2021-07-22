@@ -77,7 +77,7 @@ class GameServer {
 
     // Creates the gRPC server that we will be using to make rpc calls to handle the game state
     private createGrpcServer() : grpc.Server {
-        var packageDefinition = protoLoader.loadSync('./proto/test.proto');
+        var packageDefinition = protoLoader.loadSync('./proto/game.proto');
         var proto = (grpc.loadPackageDefinition(packageDefinition) as unknown) as ProtoGrpcType;
         var server = new grpc.Server();
         server.addService(proto.game.GameService.service, {
@@ -141,7 +141,9 @@ let game = gameServer.createGame("Tic Tac Toe", new TicTacToeGameMap());
 game.addPlayer(new GamePlayer(new Player("Dan")))
 game.addPlayer(new GamePlayer(new Player("Bob")))
 
-console.log(game.getGameMap<TicTacToeGameMap>().gameTiles);
+game.gameMap.begin();
+
+//console.log(game.getGameMap<TicTacToeGameMap>().gameTiles);
 console.log(game.players);
 
 game.getGameMap<TicTacToeGameMap>().haveTurn();
