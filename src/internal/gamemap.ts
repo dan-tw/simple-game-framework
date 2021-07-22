@@ -109,7 +109,7 @@ export abstract class BaseGameMap {
 // control throughout a game. Players may have more than once
 // GamePiece or even have multiple copies of the same GamePiece 
 // The id of a GamePiece is what makes them differ
-export abstract class GamePiece {
+export abstract class BaseGamePiece {
 
     // The unique ID of this GamePiece
     private _id : string;
@@ -134,6 +134,13 @@ export abstract class GamePiece {
         this._game = game;
         this._group = "";
     }
+
+    // Implement the logic responsible for moving the game piece
+    abstract move() : void;
+
+    // Returns an array of GameMapTile that contains all allowable tiles the
+    // game piece can move to
+    abstract allowedTiles() : GameMapTile[];
 
     // Get the name of this GamePiece
     public get name() : string {
@@ -182,19 +189,6 @@ export abstract class GamePiece {
 }
 
 
-// IGamePiece interface defines methods that should be implemented for all GamePiece
-// instances. As the GamePiece class itself is abstract it should never be used
-export interface IGamePiece {
-
-    // Implement the logic responsible for moving the game piece
-    move() : void;
-
-    // Returns an array of GameMapTile that contains all allowable tiles the
-    // game piece can move to
-    allowedTiles() : GameMapTile[];
-}
-
-
 // GameMapTile represents one 'square' on the GameMap. Each GameMapTile can have an owner
 // As well as an occupier.
 export class GameMapTile {
@@ -202,6 +196,10 @@ export class GameMapTile {
     // The GameMapTile owner. Owner does not always represent a GamePlayer
     // A GameMapTile could be owned by any object that has a unique ID
     protected _owner : GameTileOwner;
+
+    // The GameMapTile occupier. It's important to understand the difference between owner and occupier.
+    // A GameMapTile can be owned by one object and yet occupied by another.
+    protected _occupier : GameTileOwner;
     //x: number;
     //y: number;
     //num:number;
@@ -214,6 +212,21 @@ export class GameMapTile {
     // Get the current owner of this GameMapTile
     public get owner() : GameTileOwner {
         return this._owner;
+    }
+
+    // Set the current owner of this GameMapTile
+    public set owner(owner : GameTileOwner) {
+        this._owner = owner;
+    }
+
+    // Get the current owner of this GameMapTile
+    public get occupier() : GameTileOwner {
+        return this._occupier;
+    }
+
+    // Set the current owner of this GameMapTile
+    public set occupier(occupier : GameTileOwner) {
+        this._occupier = occupier;
     }
 }
 

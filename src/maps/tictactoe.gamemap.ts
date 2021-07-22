@@ -1,5 +1,5 @@
 import { BaseGameMap } from "../internal/gamemap";
-import { GameMapTile, GamePiece, IGamePiece } from "../internal/gamemap";
+import { GameMapTile, BaseGamePiece } from "../internal/gamemap";
 
 
 export class GameMap extends BaseGameMap {
@@ -50,10 +50,10 @@ export class GameMap extends BaseGameMap {
 // BasePiece defined to share common game peice traits for the Tic Tac Toe game
 // in this case, we know that the allowedTiles that a game piece can exist is shared for all game peices
 // in that they can only occupy un-occupied space.
-class BasePiece extends GamePiece implements IGamePiece {
+class TicTacToePiece extends BaseGamePiece {
 
     public move() : void {
-
+        
     }
 
     public allowedTiles() : GameMapTile[] {
@@ -72,5 +72,5 @@ class BasePiece extends GamePiece implements IGamePiece {
     }
 }
 // Define our Cross and Naught game pieces
-class Cross extends BasePiece {}
-class Naught extends BasePiece {}
+class Cross extends TicTacToePiece {}
+class Naught extends TicTacToePiece {}
