@@ -7,7 +7,7 @@ import { GameState, GameStateType } from "./gamestate"
 export class BaseGameMap {
 
     // The unique id for this GameMap
-    private _id : string = Game.uuid();
+    private _id : string;
 
     // The name of the game map that is currently being played
     protected _name : string;
@@ -28,6 +28,7 @@ export class BaseGameMap {
 
     // Constructor
     constructor(name : string, mapSize : [number, number]) {
+        this._id = Game.uuid();
         this._name = name;
         this._mapSize = mapSize;
         this._gameTiles = this.createGameMapTiles();
@@ -98,17 +99,23 @@ export class BaseGameMap {
 // The id of a GamePiece is what makes them differ
 export abstract class GamePiece {
 
-    private _id : string = Game.uuid();
+    private _id : string;
 
     protected _name : string;
 
     protected _position : [number, number] = [-1,-1]; // start off the map
 
-    protected _game : Game
+    protected _game : Game;
+
+    // A group is used to classify where the GamePiece resides when there are more than one
+    // group. For example, chess has 'Black' and 'White'
+    protected _group : string;
 
     constructor(name : string, game : Game) {
+        this._id = Game.uuid();
         this._name = name;
         this._game = game;
+        this._group = "";
     }
 
     public set name(name : string) {
@@ -132,7 +139,15 @@ export abstract class GamePiece {
     }
 
     protected set game(game : Game) {
-        this.game = game;
+        this._game = game;
+    }
+
+    protected get group() : string {
+        return this._group;
+    }
+
+    protected set group(group : string) {
+        this._group = group;
     }
 
     public get id() : string {

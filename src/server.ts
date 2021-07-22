@@ -10,7 +10,7 @@ import * as protoLoader from '@grpc/proto-loader';
 //import * as grpcWeb from 'grpc-web';
 import { ProtoGrpcType } from './api/game';
 import { BaseGameMap } from './internal/gamemap';
-import { Game } from './internal/game';
+import { Game, GamePlayer } from './internal/game';
 //import * as MyGame from 'game-internal';
 import { GameMap as TicTacToeGameMap } from './maps/tictactoe.gamemap';
 import { Player } from './internal/player';
@@ -138,8 +138,8 @@ console.log("WS server listening on 8083");*/
 
 let game = gameServer.createGame("Tic Tac Toe", new TicTacToeGameMap());
 
-game.addPlayer(new Player("Dan"))
-game.addPlayer(new Player("Bob"))
+game.addPlayer(new GamePlayer(new Player("Dan")))
+game.addPlayer(new GamePlayer(new Player("Bob")))
 
 console.log(game.getGameMap<TicTacToeGameMap>().gameTiles);
 console.log(game.players);

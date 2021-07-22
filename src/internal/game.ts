@@ -1,7 +1,13 @@
 import { gameServer } from "../server";
-import { Player, ActivePlayer } from "./player";
+import { Player } from "./player";
 import { BaseGameMap } from "./gamemap";
 import { GameStateType } from "./gamestate";
+
+// This type is used to define an active player (meaning the player whos current turn it is)
+// As it is possible that at some point, a game may not have an active player
+// hence why we allow this value to be undefined
+export type ActivePlayer = GamePlayer | undefined
+
 
 // The game class represents an active game that is currently being played
 // or that has been played previously. The game itself can be played on more than one 
@@ -10,7 +16,7 @@ import { GameStateType } from "./gamestate";
 export class Game {
     
     // The unique ID of this game
-    private _id : string = Game.uuid();
+    private _id : string;
 
     // The name of this game
     private _name : string;
@@ -19,7 +25,7 @@ export class Game {
     private _activePlayer : ActivePlayer;
 
     // The players currently playing this game
-    private _players : Player[] = [];
+    private _players : GamePlayer[] = [];
 
     // The currently active game map (this could be tic toc toe, or this could be checkers, chess, etc)
     private _gameMap : BaseGameMap
@@ -29,16 +35,17 @@ export class Game {
 
     // Constructor
     constructor(name : string, map : BaseGameMap) {
+        this._id = Game.uuid();
         this._name = name;
         this._gameMap = map;
     }
 
     // Add a player to the current game
-    public addPlayer(player : Player) {
+    public addPlayer(player : GamePlayer) {
         this._players.push(player);
     }
 
-    public get players() : Player[] {
+    public get players() : GamePlayer[] {
         return this._players;
     }
 
@@ -83,5 +90,28 @@ export class Game {
         // add the thing to the thing and return thing :(
         this.ids.push(id);
         return id;
+    }
+}
+
+// GamePlayer represents an active participant on a GameMap. We separate this from 'Player' as
+// different maps may have different requirements as to what a player should and should not know
+export class GamePlayer {
+
+    // The unique ID of this GamePlayer
+    private _id : string;
+
+    // The Player that this GamePlayer will be based upon
+    protected _player : Player;
+
+    // Constructor
+    constructor(player : Player) {
+
+        this._id = Game.uuid();
+        this._player = player;
+    }
+
+    // Return the instance of player that this GamePlayer is based upon
+    public get player() : Player {
+        return this._player;
     }
 }

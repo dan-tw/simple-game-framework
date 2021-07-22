@@ -5,6 +5,7 @@ import { GameMapTile, GamePiece, IGamePiece } from "../internal/gamemap";
 export class GameMap extends BaseGameMap implements IGameMap {
 
     constructor() {
+
         let mapSize : [number, number] = [3, 3];
         let mapName = "";
 
@@ -22,6 +23,15 @@ export class GameMap extends BaseGameMap implements IGameMap {
     public setupGamePeices() : void {
         // the max number of moves a single player can make in tic tac toe is 8
         // so we assign each player 8 game peices
+
+        // TODO: determine a way to assign a specific player to naughts over crosses e.g.
+        if(this.game !== undefined) {
+            for(var i = 0; i < this.game.players.length; i++) {
+                if(i == 0) {
+
+                }
+            }
+        }
     }
 
     public gameHasEnded() : boolean {
@@ -30,7 +40,9 @@ export class GameMap extends BaseGameMap implements IGameMap {
     }
 }
 
-
+// BasePiece defined to share common game peice traits for the Tic Tac Toe game
+// in this case, we know that the allowedTiles that a game piece can exist is shared for all game peices
+// in that they can only occupy un-occupied space.
 class BasePiece extends GamePiece implements IGamePiece {
 
     public move() : void {
@@ -52,5 +64,6 @@ class BasePiece extends GamePiece implements IGamePiece {
         return allowedTiles;
     }
 }
+// Define our Cross and Naught game pieces
 class Cross extends BasePiece {}
 class Naught extends BasePiece {}
