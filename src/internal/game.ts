@@ -45,6 +45,7 @@ export class Game {
         this._players.push(player);
     }
 
+    // Gets a list of all GamePlayers
     public get players() : GamePlayer[] {
         return this._players;
     }
@@ -55,6 +56,7 @@ export class Game {
         this._activePlayer = player;
     }
 
+    // Gets the active player
     public get activePlayer() : ActivePlayer {
         return this._activePlayer;
     }

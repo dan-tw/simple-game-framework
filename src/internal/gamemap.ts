@@ -1,4 +1,4 @@
-import { Game } from "./game";
+import { Game, GamePlayer } from "./game";
 import { GameState, GameStateType } from "./gamestate"
 
 // The GameMap class represents the base level of a map that can be played
@@ -99,18 +99,23 @@ export class BaseGameMap {
 // The id of a GamePiece is what makes them differ
 export abstract class GamePiece {
 
+    // The unique ID of this GamePiece
     private _id : string;
 
+    // The name of this GamePiece
     protected _name : string;
 
+    // The current position on the GameMap of this GamePiece
     protected _position : [number, number] = [-1,-1]; // start off the map
 
+    // The game that this GamePiece is currently being played with in
     protected _game : Game;
 
     // A group is used to classify where the GamePiece resides when there are more than one
     // group. For example, chess has 'Black' and 'White'
     protected _group : string;
 
+    // Constructor
     constructor(name : string, game : Game) {
         this._id = Game.uuid();
         this._name = name;
@@ -118,38 +123,47 @@ export abstract class GamePiece {
         this._group = "";
     }
 
-    public set name(name : string) {
-        this._name = name;
-    }
-
+    // Get the name of this GamePiece
     public get name() : string {
         return this._name;
     }
 
+    // Set the name of the game piece
+    public set name(name : string) {
+        this._name = name;
+    }
+
+    // Get the position of this GamePiece on the current GameMap. -1,-1 means it's not being used
     public get position() : [number, number] {
         return this._position;
     }
 
+    // Set the position of this GamePiece on the current GameMap
     public set position(position : [number, number]) {
         this._position = position;
     }
 
+    // Get the current game that this GamePiece is being used in
     protected get game() : Game {
         return this._game;
     }
 
+    // Set the current game that this GamePiece is being used in
     protected set game(game : Game) {
         this._game = game;
     }
 
+    // Get the group that this GamePiece has been assigned to
     protected get group() : string {
         return this._group;
     }
 
+    // Set the group that this GamePiece belongs to
     protected set group(group : string) {
         this._group = group;
     }
 
+    // Get the unique ID of this GamePiece
     public get id() : string {
         return this._id;
     }
@@ -168,31 +182,50 @@ export interface IGamePiece {
     allowedTiles() : GameMapTile[];
 }
 
+
+// GameMapTile represents one 'square' on the GameMap. Each GameMapTile can have an owner
+// As well as an occupier.
 export class GameMapTile {
 
+    // The GameMapTile owner. Owner does not always represent a GamePlayer
+    // A GameMapTile could be owned by any object that has a unique ID
     protected _owner : GameTileOwner;
     //x: number;
     //y: number;
     //num:number;
 
+    // Constructor
     constructor(owner? : GameTileOwner) {
         this._owner = owner
     }
 
+    // Get the current owner of this GameMapTile
     public get owner() : GameTileOwner {
         return this._owner;
     }
 }
 
-type GameTileOwner = string | undefined
+// Represents all possible owners of a GameMapTile as a type
+type GameTileOwner = string | GamePlayer | undefined
 
+
+// IGameMap interface should be implemented in all variations of GameMap's that are implemented. ever.
+// It defines the interface that drives the indepedant logic of an individual GameMap.
+// This includes things like how to begin a map, how a turn should play out, when a game ends, etc.
 export interface IGameMap {
 
+    // Should hold the logic for when a game begins. This can include things like setting up player pieces
+    // player assignments, team management, etc
     begin() : void;
 
+    // Have a turn based on something
+    // TODO: figure out what this needs
     haveTurn() : void;
 
+    // This will be called on every turn to check whether we have reached a win/lose condition for our GameMap
+    // if we have, this should return true otherwise return false
     gameHasEnded() : boolean;
 
+    // TODO: duplicate of begin?
     setupGamePeices() : void;
 }
