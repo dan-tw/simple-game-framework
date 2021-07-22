@@ -5,9 +5,11 @@
       "strict": true,
       "esModuleInterop": true,
       "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true
+      "forceConsistentCasingInFileNames": true,
+      "outDir": "dist",
+      "declaration": true
     },
     "$schema": "https://json.schemastore.org/tsconfig",
     "display": "Recommended",
-    "esModuleInterop": true
+    "esModuleInterop": true,
   }

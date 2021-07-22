@@ -1,6 +1,6 @@
-import { gameServer } from "./server";
+import { gameServer } from "../server";
 import { Player, ActivePlayer } from "./player";
-import { GameMap } from "./gamemap";
+import { BaseGameMap } from "./gamemap";
 import { GameStateType } from "./gamestate";
 
 // The game class represents an active game that is currently being played
@@ -22,13 +22,13 @@ export class Game {
     private _players : Player[] = [];
 
     // The currently active game map (this could be tic toc toe, or this could be checkers, chess, etc)
-    private _gameMap : GameMap
+    private _gameMap : BaseGameMap
 
     // An array of used ids for this instance of the game server
     private static ids : string[] = [];
 
     // Constructor
-    constructor(name : string, map : GameMap) {
+    constructor(name : string, map : BaseGameMap) {
         this._name = name;
         this._gameMap = map;
     }
@@ -61,7 +61,7 @@ export class Game {
     }
 
     // Gets the game map instance
-    public get gameMap() : GameMap {
+    public get gameMap() : BaseGameMap {
         return this._gameMap;
     }
 

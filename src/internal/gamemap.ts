@@ -4,13 +4,17 @@ import { GameState, GameStateType } from "./gamestate"
 // The GameMap class represents the base level of a map that can be played
 // It holds common attributes and methods that don't change across maps
 // It is used in combination with the IGameMap interface, which defines the methods that are subclass specific
-export class GameMap {
+export class BaseGameMap {
 
     // The unique id for this GameMap
     private _id : string = Game.uuid();
 
     // The name of the game map that is currently being played
     protected _name : string;
+
+    // The game that this map instance is currently assigned to 
+    // The game holds information such as player data, etc
+    protected _game : Game | undefined;
 
     // The current gamestate of this game map
     protected gameState : GameStateType = null;
@@ -20,7 +24,7 @@ export class GameMap {
 
     // The individual tiles that make up the 'playing field' of the GameMap
     // A GameMapTile can be owned by an object (usually a Player)
-    protected _gameTiles : GameMapTile[][]
+    protected _gameTiles : GameMapTile[][];
 
     // Constructor
     constructor(name : string, mapSize : [number, number]) {
@@ -67,6 +71,16 @@ export class GameMap {
         this._name = name;
     }
 
+    // Get the current game that this game map is being played in
+    public get game() : Game | undefined {
+        return this._game;
+    }
+
+    // Set the current game this game map is being played in
+    public set game(game : Game | undefined) {
+        this._game = game;
+    }
+
     // Get the size of the current map (all maps are a grid of n, n squares)
     public get mapSize() : [number, number] {
         return this._mapSize;
@@ -86,10 +100,39 @@ export abstract class GamePiece {
 
     private _id : string = Game.uuid();
 
-    protected name : string;
+    protected _name : string;
 
-    constructor(name : string) {
-        this.name = name;
+    protected _position : [number, number] = [-1,-1]; // start off the map
+
+    protected _game : Game
+
+    constructor(name : string, game : Game) {
+        this._name = name;
+        this._game = game;
+    }
+
+    public set name(name : string) {
+        this._name = name;
+    }
+
+    public get name() : string {
+        return this._name;
+    }
+
+    public get position() : [number, number] {
+        return this._position;
+    }
+
+    public set position(position : [number, number]) {
+        this._position = position;
+    }
+
+    protected get game() : Game {
+        return this._game;
+    }
+
+    protected set game(game : Game) {
+        this.game = game;
     }
 
     public get id() : string {
@@ -110,17 +153,31 @@ export interface IGamePiece {
     allowedTiles() : GameMapTile[];
 }
 
-class GameMapTile {
+export class GameMapTile {
 
-    protected owner : GameTileOwner;
+    protected _owner : GameTileOwner;
     //x: number;
     //y: number;
     //num:number;
 
     constructor(owner? : GameTileOwner) {
-        this.owner = owner
+        this._owner = owner
+    }
+
+    public get owner() : GameTileOwner {
+        return this._owner;
     }
 }
 
 type GameTileOwner = string | undefined
 
+export interface IGameMap {
+
+    begin() : void;
+
+    haveTurn() : void;
+
+    gameHasEnded() : boolean;
+
+    setupGamePeices() : void;
+}

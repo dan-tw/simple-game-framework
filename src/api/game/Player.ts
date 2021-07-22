@@ -1,4 +1,4 @@
-// Original file: proto/test.proto
+// Original file: proto/game.proto
 
 
 export interface Player {

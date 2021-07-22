@@ -1,4 +1,4 @@
-// Original file: proto/test.proto
+// Original file: proto/game.proto
 
 import type { Game as _game_Game, Game__Output as _game_Game__Output } from '../game/Game';
 import type { Error as _game_Error, Error__Output as _game_Error__Output } from '../game/Error';

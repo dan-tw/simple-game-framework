@@ -1,11 +1,11 @@
 #!/bin/bash
 
-PROTO_FILE=./proto/test.proto
+PROTO_FILE=./proto/game.proto
 DIR=./
-OUT_DIR=./api/game
+OUT_DIR=./src/api
 WEB_OUT_DIR=grpcweb
 
-mkdir $OUT_DIR/$WEB_OUT_DIR
+mkdir -p $OUT_DIR/$WEB_OUT_DIR
 
 #remove old generated files
 rm -rf $OUT_DIR/proto

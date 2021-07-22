@@ -2,21 +2,21 @@ import WebSocket from "ws";
 
 export class Player {
 
-    private name : string
+    private _name : string
 
     //private ws : WebSocket
 
     constructor(name : string, ws? : WebSocket) {
-        this.name = name;
+        this._name = name;
         //this.ws = ws;
     }
 
-    public setName(name : string) {
-        this.name = name;
+    public set name(name : string) {
+        this._name = name;
     }
 
-    public getName() : string {
-        return this.name;
+    public get name() : string {
+        return this._name;
     }
 }
 

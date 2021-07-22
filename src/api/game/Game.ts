@@ -1,4 +1,4 @@
-// Original file: proto/test.proto
+// Original file: proto/game.proto
 
 import type { Player as _game_Player, Player__Output as _game_Player__Output } from '../game/Player';
 import type { State as _game_State, State__Output as _game_State__Output } from '../game/State';

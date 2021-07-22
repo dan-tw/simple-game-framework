@@ -1,7 +1,7 @@
-// Original file: proto/test.proto
+// Original file: proto/game.proto
 
 
-// Original file: proto/test.proto
+// Original file: proto/game.proto
 
 export enum _game_Error_ErrorType {
   INVALID_GAME = 0,
