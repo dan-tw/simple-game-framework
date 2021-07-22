@@ -60,9 +60,9 @@ class BasePiece extends GamePiece implements IGamePiece {
 
         let allowedTiles : GameMapTile[] = [];
 
-        for(var i = 0; i < this.game.getGameMap<GameMap>().mapSize[0]; i++) {
-            for(var j = 0; j < this.game.getGameMap<GameMap>().mapSize[1]; j++) {
-                let gameMapTile : GameMapTile = this.game.getGameMap<GameMap>().gameTiles[i][j];
+        for(var i = 0; i < this.game.gameMap.mapSize[0]; i++) {
+            for(var j = 0; j < this.game.gameMap.mapSize[1]; j++) {
+                let gameMapTile : GameMapTile = this.game.gameMap.gameTiles[i][j];
                 if(gameMapTile.owner === undefined)
                     allowedTiles.push(gameMapTile);
             }

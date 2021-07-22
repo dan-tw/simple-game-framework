@@ -63,14 +63,6 @@ export class Game {
         return this._activePlayer;
     }
 
-    // Returns the current game map that has been configured for this game
-    // Takes a type <T> as it is assumed when using the interface it is known which 
-    // GameMap will have been used and this allows us to access specific IGameMap interface
-    // methods on our GameMap instance
-    public getGameMap<T>() : T {
-        return (this._gameMap as unknown) as T;
-    }
-
     // Gets the game map instance
     public get gameMap() : BaseGameMap {
         return this._gameMap;
