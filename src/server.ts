@@ -9,11 +9,11 @@ import * as protoLoader from '@grpc/proto-loader';
 // grpcweb
 //import * as grpcWeb from 'grpc-web';
 import { ProtoGrpcType } from './api/game';
-import { BaseGameMap } from './internal/game-map/gamemap';
-import { Game } from './internal/game/game';
+import { BaseGameMap } from './internal/gamemap';
+import { Game } from './internal/game';
 //import * as MyGame from 'game-internal';
 import { GameMap as TicTacToeGameMap } from './maps/tictactoe.gamemap';
-import { Player } from './player';
+import { Player } from './internal/player';
 
 //import {AddPlayerRequest, AddPlayerResponse} from '../api/tictactoe/grpcweb/proto/test_pb'
 //import { _tictactoe_AddPlayerResponse_Outcome } from '../api/tictactoe/AddPlayerResponse';
